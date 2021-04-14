@@ -1,20 +1,12 @@
 .item {
     cursor: pointer;
+    width: 300px;
+    border: none;
 }
 
 .item-title {
     width: 300px;
     border: none;
-}
-
-.item-year {
-    text-align: center;
-    width: 100px;
-}
-
-.item-rating {
-    text-align: center;
-    width: 100px;
 }
 
 .container {

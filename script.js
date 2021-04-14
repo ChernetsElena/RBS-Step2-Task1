@@ -17,9 +17,15 @@ var basket = [
 document.addEventListener("DOMContentLoaded", () => {
 
 	 //обработка нажатия "обновить"
-	// document.getElementById("item-title").addEventListener("click", () => {
-	//   	refresh(store);
-	// });
+	// document.getElementById("but").addEventListener("click", () => {
+	//    	alert('hhh');
+	//  });
+
+	 document.querySelector('.container').addEventListener('click',function(e){
+	 	if (e.target.classList.contains('row item disable-selection')){
+			console.log('sdsdv')
+		} alert("Я " + e.target.value)
+	 })
 
 	// первичное отображение данных
 	refresh(store, basket)
@@ -47,17 +53,19 @@ function clear() {
 // создание html представления хранилища
 function createElementStore(item) {
 	// ячейка названия продукта
-	var divTitle = document.createElement('button');
-	divTitle.className = "item-title";
-	divTitle.innerHTML = item.title;
+	var divTitle = document.createElement('input');
+	divTitle.type = 'button';
+	divTitle.className = "row item disable-selection";
+	divTitle.value = item.title;
+	divTitle.id = 'store_' + item.id;
 
 	// строка хранилища
-	var divItemContainer = document.createElement('div');
-	divItemContainer.className = "row item disable-selection";
-	divItemContainer.appendChild(divTitle);
-	divItemContainer.id = 'store_' + item.id;
+	// var divItemContainer = document.createElement('div');
+	// divItemContainer.className = "row item disable-selection";
+	// divItemContainer.appendChild(divTitle);
+	// divItemContainer.id = 'store_' + item.id;
 
-	return divItemContainer;
+	return divTitle;
 }
 
 // создание html представления корзины
