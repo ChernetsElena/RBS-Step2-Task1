@@ -13,13 +13,10 @@
     display: inline-block;
 }
 
+
 .row {
     margin-bottom: 5px;
     display: flex;
-}
-
-.btn{
-    margin-left: 10px;
 }
 
 .disable-selection {

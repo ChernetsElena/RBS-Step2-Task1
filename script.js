@@ -1,37 +1,97 @@
 var store = [
-    {id: 0, title: "Яблоко"},
-    {id: 1, title: "Апельсин"},
-    {id: 2, title: "Банан"},
-    {id: 3, title: "Груша"},
-    {id: 4, title: "Брусника"},
+    {title: "Яблоко", count: 5, price: 20},
+    {title: "Апельсин", count: 3, price: 20},
+    {title: "Банан", count: 4, price: 20},
+    {title: "Груша", count: 7, price: 20},
+    {title: "Брусника", count: 10, price: 20},
 ];
 
-var basket = [
-    // {id: 0, title: "Кефир"},
-    // {id: 1, title: "Молоко"},
-    // {id: 2, title: "Йогурт"},
-    // {id: 3, title: "Сок"},
-    // {id: 4, title: "Шоколад"},
-];
+var basket = [];
+
 
 document.addEventListener("DOMContentLoaded", () => {
 
-	 //обработка нажатия "обновить"
-	// document.getElementById("but").addEventListener("click", () => {
-	//    	alert('hhh');
-	//  });
+	document.getElementById('store').addEventListener('click', function(event){
+		if (event.target.className === 'row item disable-selection') {
 
-	 document.querySelector('.container').addEventListener('click',function(e){
-	 	if (e.target.classList.contains('row item disable-selection')){
-			console.log('sdsdv')
-		} alert("Я " + e.target.value)
-	 })
+			basket = incrementElement(basket, store, event.target.value);
+			store = decrementElement(store, event.target.value);
+			document.getElementById('cost').innerHTML = getCost(basket);
 
-	// первичное отображение данных
+			console.log(basket);
+			console.log(store);
+			refresh(store, basket)
+		}
+	})
+
+	document.getElementById('basket').addEventListener('click', function(event){
+		if (event.target.className === 'row item disable-selection') {
+			
+			store = incrementElement(store, basket, event.target.value);
+			basket = decrementElement(basket, event.target.value);
+			document.getElementById('cost').innerHTML = getCost(basket);
+
+			console.log(basket);
+			console.log(store);
+			refresh(store, basket)
+		}
+	})
+
 	refresh(store, basket)
 });
 
-// функция обновления данных в контейнере
+	//функция уменьшающая количество продукта на 1 или удаляющая продукт из массива
+function decrementElement(data, value) {
+	for (let i = 0; i < data.length; i++) {
+		if (data[i].title === value) {
+			if (data[i].count === 1) {
+				data.splice(i, 1);
+			}
+			else {
+				data[i].count -= 1;
+			}
+		}
+   }
+   return data
+}
+
+	//функция увеличивает количество продукта на 1 или добавляет продукт из массива
+function incrementElement(dataInc, dataDec, value) {
+	isProductInData = false
+
+	for (let i = 0; i < dataInc.length; i++) {
+		if (dataInc[i].title === value) {
+			dataInc[i].count += 1;
+			isProductInData = true;
+		}
+	}
+
+	if (isProductInData == false) {
+		for (let i = 0; i < dataDec.length; i++) {
+			if (dataDec[i].title === value) {
+				dataInc[dataInc.length] = {title: value, count: 1, price: dataDec[i].price};
+			}
+		}
+	}
+
+	return dataInc
+}
+
+// функция считает цену
+function getCost(data) {
+	let cost = 0;
+	if (data.length === 0) {
+		return cost
+	}
+
+	for (let i = 0; i < data.length; i++) {
+		cost += data[i].count * data[i].price;
+	}
+
+	return cost
+}
+
+// функция обновления данных
 function refresh(store, basket) {
 	clear()
 
@@ -44,7 +104,7 @@ function refresh(store, basket) {
 	});
 }
 
-// функция очищения контейнера фильмов
+// функция очистки
 function clear() {
 	document.getElementById('store').innerHTML = '';
     document.getElementById('basket').innerHTML = '';
@@ -53,33 +113,43 @@ function clear() {
 // создание html представления хранилища
 function createElementStore(item) {
 	// ячейка названия продукта
-	var divTitle = document.createElement('input');
-	divTitle.type = 'button';
-	divTitle.className = "row item disable-selection";
-	divTitle.value = item.title;
-	divTitle.id = 'store_' + item.id;
+	var inputTitle = document.createElement('input');
+	inputTitle.type = 'button';
+	inputTitle.className = "row item disable-selection";
+	inputTitle.value = item.title;
 
-	// строка хранилища
-	// var divItemContainer = document.createElement('div');
-	// divItemContainer.className = "row item disable-selection";
-	// divItemContainer.appendChild(divTitle);
-	// divItemContainer.id = 'store_' + item.id;
+	// ячейка количества продукта
+	var divCount = document.createElement('div');
+	divCount.innerHTML = item.count;
 
-	return divTitle;
+	var divStore = document.createElement('div');
+	divStore.appendChild(inputTitle);
+	divStore.appendChild(divCount);
+	divStore.className = "store";
+	divStore.id = 'store_product'
+
+	return divStore;
 }
 
 // создание html представления корзины
 function createElementBasket(item) {
 	// ячейка названия продукта
-	var divTitle = document.createElement('button');
-	divTitle.className = "item-title";
-	divTitle.innerHTML = item.title;
+	var inputTitle = document.createElement('input');
+	inputTitle.type = 'button';
+	inputTitle.className = "row item disable-selection";
+	inputTitle.value = item.title;
+	inputTitle.id = 'basket_' + item.id;
 
-	// строка корзины
-	var divItemContainer = document.createElement('div');
-	divItemContainer.className = "row item disable-selection";
-	divItemContainer.appendChild(divTitle);
-	divItemContainer.id = 'basket_' + item.id;
+	// ячейка количества продукта
+	var divCount = document.createElement('div');
+	divCount.innerHTML = item.count;
 
-	return divItemContainer;
+	var divBasket = document.createElement('div');
+	divBasket.appendChild(inputTitle);
+	divBasket.appendChild(divCount);
+	divBasket.className = "basket";
+	divBasket.id = 'basket_product'
+
+	return divBasket;
 }
+
