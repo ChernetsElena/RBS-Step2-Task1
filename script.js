@@ -1,43 +1,48 @@
-var store = [
-    {title: "Яблоко", count: 5, price: 20},
-    {title: "Апельсин", count: 3, price: 20},
-    {title: "Банан", count: 4, price: 20},
-    {title: "Груша", count: 7, price: 20},
-    {title: "Брусника", count: 10, price: 20},
-];
+class Product {
+	constructor(title, count, price) {
+		this.title = title;
+		this.count = count;
+		this.price = price;
+	}
+}
+
+var store = [];
+
+store.push(new Product("Яблоко", 5, 20))
+store.push(new Product("Апельсин", 5, 20))
+store.push(new Product("Банан", 5, 20))
+store.push(new Product("Груша", 5, 20))
+store.push(new Product("Брусника", 5, 20))
 
 var basket = [];
 
 
 document.addEventListener("DOMContentLoaded", () => {
+	document.getElementById('cost').innerHTML = 0;
 
 	document.getElementById('store').addEventListener('click', function(event){
-		if (event.target.className === 'row item disable-selection') {
-
+		if (event.target.id === 'store_product') {
+			console.log('sffs')
 			basket = incrementElement(basket, store, event.target.value);
 			store = decrementElement(store, event.target.value);
 			document.getElementById('cost').innerHTML = getCost(basket);
 
-			console.log(basket);
-			console.log(store);
-			refresh(store, basket)
+			refresh()
 		}
 	})
 
 	document.getElementById('basket').addEventListener('click', function(event){
-		if (event.target.className === 'row item disable-selection') {
+		if (event.target.className === 'row item') {
 			
 			store = incrementElement(store, basket, event.target.value);
 			basket = decrementElement(basket, event.target.value);
 			document.getElementById('cost').innerHTML = getCost(basket);
 
-			console.log(basket);
-			console.log(store);
-			refresh(store, basket)
+			refresh()
 		}
 	})
 
-	refresh(store, basket)
+	refresh()
 });
 
 	//функция уменьшающая количество продукта на 1 или удаляющая продукт из массива
@@ -92,15 +97,15 @@ function getCost(data) {
 }
 
 // функция обновления данных
-function refresh(store, basket) {
+function refresh() {
 	clear()
 
 	store.forEach(item => {
-		document.getElementById('store').appendChild(createElementStore(item))
+		document.getElementById('store').appendChild(createElement(item, "store"))
 	});
 
     basket.forEach(item => {
-		document.getElementById('basket').appendChild(createElementBasket(item))
+		document.getElementById('basket').appendChild(createElement(item, "basket"))
 	});
 }
 
@@ -110,46 +115,30 @@ function clear() {
     document.getElementById('basket').innerHTML = '';
 }
 
-// создание html представления хранилища
-function createElementStore(item) {
+// создание html представления корзины и склада
+function createElement(item, className) {
 	// ячейка названия продукта
 	var inputTitle = document.createElement('input');
 	inputTitle.type = 'button';
-	inputTitle.className = "row item disable-selection";
+	inputTitle.className = "item-title";
 	inputTitle.value = item.title;
 
 	// ячейка количества продукта
 	var divCount = document.createElement('div');
 	divCount.innerHTML = item.count;
+	divCount.className = "item-count";
 
-	var divStore = document.createElement('div');
-	divStore.appendChild(inputTitle);
-	divStore.appendChild(divCount);
-	divStore.className = "store";
-	divStore.id = 'store_product'
+	// ячейка цена продукта
+	var divPrice = document.createElement('div');
+	divPrice.innerHTML = item.price;
+	divPrice.className = "item-price";
 
-	return divStore;
+	var divElement = document.createElement('div');
+	divElement.appendChild(inputTitle);
+	divElement.appendChild(divCount);
+	divElement.appendChild(divPrice);
+	divElement.className = "row item";
+	divElement.id = className + '_product';
+
+	return divElement;
 }
-
-// создание html представления корзины
-function createElementBasket(item) {
-	// ячейка названия продукта
-	var inputTitle = document.createElement('input');
-	inputTitle.type = 'button';
-	inputTitle.className = "row item disable-selection";
-	inputTitle.value = item.title;
-	inputTitle.id = 'basket_' + item.id;
-
-	// ячейка количества продукта
-	var divCount = document.createElement('div');
-	divCount.innerHTML = item.count;
-
-	var divBasket = document.createElement('div');
-	divBasket.appendChild(inputTitle);
-	divBasket.appendChild(divCount);
-	divBasket.className = "basket";
-	divBasket.id = 'basket_product'
-
-	return divBasket;
-}
-

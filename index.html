@@ -11,17 +11,45 @@
 </head>
 
 <body>
-	<div>
-		<h3>Стоимость</h3>
-		<div id="cost"></div>
+	<div class = "content">
+		<div class="container">
+			<h3 class="title">Склад</h3>
+			<div class="row">
+				<div class="container">
+					<div class="row item" id="store_product">
+						<div class="item-title">Название</div>
+						<div class="item-count">Количество</div>
+						<div class="item-price">Цена</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="product-row">
+				<div id="store" class="container"></div>
+			</div>
+		</div>
+
+		<div class="container">
+			<h3 class="title">Корзина</h3>
+			<div class="row">
+				<div class="container">
+					<div class="row item">
+						<div class="item-title">Название</div>
+						<div class="item-count">Количество</div>
+						<div class="item-price">Цена</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="product-row">
+				<div id="basket" class="container"></div>
+			</div>
+		</div>
 	</div>
-	<div>
-		<div>Склад</div>
-        <div id="store"></div>
-	</div>
-	<div>
-		<div>Корзина</div>
-        <div id="basket"></div>
+
+	<div class="cost-container">
+		<h3  class="cost-title">Стоимость</h3>
+		<div class="cost" id="cost"></div>
 	</div>
 
 </body>
