@@ -23,8 +23,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	document.getElementById('store').addEventListener('click', function(event){
 		 	
-			basket = incrementElement(basket, store, event.target.parentElement.childNodes[0].innerHTML);
-		 	store = decrementElement(store, event.target.parentElement.childNodes[0].innerHTML);
+			productName = event.target.parentElement.childNodes[0].innerHTML;
+			
+			incrementElement(basket, store, productName);
+		 	decrementElement(store, productName);
 		 	document.getElementById('cost').innerHTML = getCost(basket);
 		 	
 			refresh()
@@ -32,8 +34,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	document.getElementById('basket').addEventListener('click', function(event){
 			
-			store = incrementElement(store, basket, event.target.parentElement.childNodes[0].innerHTML);
-			basket = decrementElement(basket, event.target.parentElement.childNodes[0].innerHTML);
+			productName = event.target.parentElement.childNodes[0].innerHTML;
+			
+			incrementElement(store, basket, productName);
+			decrementElement(basket, productName);
 			document.getElementById('cost').innerHTML = getCost(basket);
 
 			refresh()
@@ -54,7 +58,7 @@ function decrementElement(data, value) {
 			}
 		}
    }
-   return data
+   return
 }
 
 	//функция увеличивает количество продукта на 1 или добавляет продукт из массива
@@ -75,8 +79,8 @@ function incrementElement(dataInc, dataDec, value) {
 			}
 		}
 	}
-
-	return dataInc
+	
+	return
 }
 
 // функция считает цену
@@ -118,29 +122,21 @@ function createElement(item, className) {
 	var divTitle = document.createElement('div');
 	divTitle.className = "item-title";
 	divTitle.innerHTML = item.title;
-	divTitle.onmousedown = "return false";
-	divTitle.onselectstart = "return false";
 
 	// ячейка количества продукта
 	var divCount = document.createElement('div');
 	divCount.innerHTML = item.count;
 	divCount.className = "item-count";
-	divCount.onmousedown = "return false";
-	divCount.onselectstart = "return false";
 
 	// ячейка цена продукта
 	var divPrice = document.createElement('div');
 	divPrice.innerHTML = item.price;
 	divPrice.className = "item-price";
-	divPrice.onmousedown = "return false";
-	divPrice.onselectstart = "return false";
 
 	var divElement = document.createElement('div');
 	divElement.appendChild(divTitle);
 	divElement.appendChild(divCount);
 	divElement.appendChild(divPrice);
-	divElement.onmousedown = "return false";
-	divElement.onselectstart = "return false";
 	divElement.className = "row item product";
 	divElement.id = className + '_product';
 
