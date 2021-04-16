@@ -7,21 +7,27 @@
 .item {
     width: 600px;
     border: none;
+   
 }
 
 .item-title {
     width: 300px;
     border: none;
+    display: flex;
+    justify-content: center;
+    cursor: default;
 }
 
 .item-count{
     text-align: center;
     width: 200px;
+    cursor: default;
 }
 
 .item-price {
     text-align: center;
     width: 200px;
+    cursor: default;
 }
 
 .content {
@@ -58,4 +64,9 @@
 
 .cost-title {
     text-align: center;
+}
+
+.product {
+    background-color: aqua;
+    border-radius: 5px;
 }

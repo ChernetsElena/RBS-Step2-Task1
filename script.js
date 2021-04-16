@@ -18,28 +18,25 @@ var basket = [];
 
 
 document.addEventListener("DOMContentLoaded", () => {
+	
 	document.getElementById('cost').innerHTML = 0;
 
 	document.getElementById('store').addEventListener('click', function(event){
-		if (event.target.id === 'store_product') {
-			console.log('sffs')
-			basket = incrementElement(basket, store, event.target.value);
-			store = decrementElement(store, event.target.value);
-			document.getElementById('cost').innerHTML = getCost(basket);
-
+		 	
+			basket = incrementElement(basket, store, event.target.parentElement.childNodes[0].innerHTML);
+		 	store = decrementElement(store, event.target.parentElement.childNodes[0].innerHTML);
+		 	document.getElementById('cost').innerHTML = getCost(basket);
+		 	
 			refresh()
-		}
 	})
 
 	document.getElementById('basket').addEventListener('click', function(event){
-		if (event.target.className === 'row item') {
 			
-			store = incrementElement(store, basket, event.target.value);
-			basket = decrementElement(basket, event.target.value);
+			store = incrementElement(store, basket, event.target.parentElement.childNodes[0].innerHTML);
+			basket = decrementElement(basket, event.target.parentElement.childNodes[0].innerHTML);
 			document.getElementById('cost').innerHTML = getCost(basket);
 
 			refresh()
-		}
 	})
 
 	refresh()
@@ -118,26 +115,33 @@ function clear() {
 // создание html представления корзины и склада
 function createElement(item, className) {
 	// ячейка названия продукта
-	var inputTitle = document.createElement('input');
-	inputTitle.type = 'button';
-	inputTitle.className = "item-title";
-	inputTitle.value = item.title;
+	var divTitle = document.createElement('div');
+	divTitle.className = "item-title";
+	divTitle.innerHTML = item.title;
+	divTitle.onmousedown = "return false";
+	divTitle.onselectstart = "return false";
 
 	// ячейка количества продукта
 	var divCount = document.createElement('div');
 	divCount.innerHTML = item.count;
 	divCount.className = "item-count";
+	divCount.onmousedown = "return false";
+	divCount.onselectstart = "return false";
 
 	// ячейка цена продукта
 	var divPrice = document.createElement('div');
 	divPrice.innerHTML = item.price;
 	divPrice.className = "item-price";
+	divPrice.onmousedown = "return false";
+	divPrice.onselectstart = "return false";
 
 	var divElement = document.createElement('div');
-	divElement.appendChild(inputTitle);
+	divElement.appendChild(divTitle);
 	divElement.appendChild(divCount);
 	divElement.appendChild(divPrice);
-	divElement.className = "row item";
+	divElement.onmousedown = "return false";
+	divElement.onselectstart = "return false";
+	divElement.className = "row item product";
 	divElement.id = className + '_product';
 
 	return divElement;
